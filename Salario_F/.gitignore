@@ -1,0 +1,13 @@
+# Ignorar arquivos do Eclipse
+.classpath
+.project
+.settings/
+
+# Diretórios de compilação
+/bin/
+/out/
+/target/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
