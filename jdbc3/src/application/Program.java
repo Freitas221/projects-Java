@@ -1,6 +1,7 @@
 package application;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -20,22 +21,20 @@ public class Program {
 		try {
 			conn = DB.getConnection();
 			
-			st = conn.prepareStatement(
-					"INSERT INTO seller "
+			st = conn.prepareStatement("INSERT INTO seller"
 					+ "(Name, Email, BirthDate, BaseSalary, DepartmentId)"
 					+"VALUES"
 					+"(?, ?, ?, ?, ?)");
-					
-			st.setString(1, "Max Stone");
-			st.setString(2, "max@gmail.com");
-			st.setDate(3, new java.sql.Date(sdf.parse("22/04/1985").getTime()));
-			st.setDouble(4, 3000.0);
-			st.setInt(5, 4);
 			
-			int rowsAffected = st.executeUpdate();
+			st.setString(1, "Marcos Freitas");
+			st.setString(2, "marcosfreitas@gmail.com");
+			st.setDate(3, new Date(sdf.parse("19/04/2003").getTime()));
+			st.setDouble(4, 3500.0);
+			st.setInt(5, 2);
 			
-			System.out.println("Done Rows Affected: "+ rowsAffected);
+			int rownsAffected = st.executeUpdate();
 			
+			System.out.println("Linhas afetadas: " + rownsAffected);
 		}
 		catch(SQLException e) {
 			e.getStackTrace();
