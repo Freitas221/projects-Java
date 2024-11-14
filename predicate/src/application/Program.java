@@ -25,7 +25,7 @@ public class Program {
 		
 		list.removeIf(p -> p.getPrice() >= 100);
  // 1 - list.removeIf( new ProductPredicate());	
- // 2 - list.removeIf(Product :: staticProductPredicate);	
+ // 2 - list.removeIf(Product :: staticProductPredicate); -> Method Reference	
  // 3 - list.removeIf(Product :: nonstaticProductPredicate);
 		
 		for(Product p : list) {
