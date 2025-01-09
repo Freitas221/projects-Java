@@ -1,1 +1,1 @@
-- Este repositório armazenará diversos projetos JAVA♨️ em minha formação em andamento, centralizando todos eles em um único local.
+- Este repositório armazenará diversos projetos JAVA♨️ na minha formação em andamento, centralizando todos eles em um único local.
