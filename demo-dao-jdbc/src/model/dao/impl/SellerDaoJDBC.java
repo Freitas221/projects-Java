@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import db.DB;
-import db.DbException;
+import db.DbIntegrityException;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
@@ -43,30 +43,31 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public Seller findById(Integer id) {
+		
 		PreparedStatement st = null;
 		ResultSet rs = null;
-
+		
 		try {
 			st = conn.prepareStatement("SELECT s.*,d.name FROM seller s "
 					+ "JOIN department d ON s.DepartmentId = d.Id " + "WHERE s.Id = ?");
-
+			
 			st.setInt(1, id);
-
+			
 			rs = st.executeQuery();
-
-			if (rs.next()) {
-				Department dep = instantiateDepatment(rs);
+			
+			if(rs.next()) {
+				
+				Department dep = instantiateDepartment(rs);
 				Seller obj = instantiateSeller(rs, dep);
+				
 				return obj;
 			}
 			return null;
-
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		} finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
+			
+		}catch(SQLException e) {
+			throw new DbIntegrityException(e.getMessage());
 		}
+		
 	}
 
 	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
@@ -83,7 +84,7 @@ public class SellerDaoJDBC implements SellerDao {
 		return obj;
 	}
 
-	private Department instantiateDepatment(ResultSet rs) throws SQLException {
+	private Department instantiateDepartment(ResultSet rs) throws SQLException {
 
 		Department dep = new Department();
 
@@ -103,39 +104,40 @@ public class SellerDaoJDBC implements SellerDao {
 	public List<Seller> findByDepartment(Department department) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
-
+		
 		try {
-			st = conn.prepareStatement(
-					"SELECT s.*,d.name FROM seller s "
+			st = conn.prepareStatement("SELECT s.*,d.name FROM seller s "
 					+"JOIN department d ON s.DepartmentId = d.Id " 
 					+"WHERE d.Id = ? " 
 					+"ORDER BY d.name"
 					);
-
+			
 			st.setInt(1, department.getId());
-
+			
 			rs = st.executeQuery();
-
-			List<Seller> list = new ArrayList<>();
+			
+			List<Seller> list = new ArrayList<Seller>();
 			Map<Integer, Department> map = new HashMap<>();
-
-			while (rs.next()) {
-
+			
+			while(rs.next()) {
 				Department dep = map.get(rs.getInt("DepartmentId"));
 				
 				if(dep == null) {
-					dep = instantiateDepatment(rs);
+					
+					dep = instantiateDepartment(rs);
 					map.put(rs.getInt("DepartmentId"), dep);
 				}
-				
 				Seller obj = instantiateSeller(rs, dep);
 				list.add(obj);
+				
+				return list;
 			}
-			return list;
-			
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		} finally {
+			return null;
+
+		}catch(SQLException e) {
+			throw new DbIntegrityException(e.getMessage());
+		}
+		finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}

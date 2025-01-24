@@ -19,7 +19,7 @@ public class Program {
 		System.out.println(seller);
 		
 		System.out.println("\n=== TEST 2: seller findByDepartment ====");	
-		Department department = new Department(2, null);
+		Department department = new Department(1, null);
 		List<Seller> list = sellerDao.findByDepartment(department);
 		
 		for (Seller obj : list) {
@@ -28,5 +28,7 @@ public class Program {
 	}
 
 }
+
+// SEU ABENÇOADO, COLOCA PRA RODAR E ADVINHA O ERRO
 
 
