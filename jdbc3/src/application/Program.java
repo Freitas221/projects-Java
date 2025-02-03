@@ -37,10 +37,15 @@ public class Program {
 			System.out.println("Linhas afetadas: " + rownsAffected);
 		}
 		catch(SQLException e) {
-			e.getStackTrace();
+			try {
+				conn.rollback();
+				throw new DbException("Transação não concluída! Causa do erro: " + e.getMessage());
+			} catch (SQLException e1) {
+				throw new DbException("Erro ao voltar a transação! Causa do erro: "+ e1.getMessage());
+			}
 		}
-		catch(ParseException e) {
-			e.getStackTrace();
+		catch(ParseException e2) {
+			e2.getStackTrace();
 		}
 		finally {
 			DB.closeStatement(st);
