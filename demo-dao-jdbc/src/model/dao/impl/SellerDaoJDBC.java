@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import db.DB;
+import db.DbException;
 import db.DbIntegrityException;
 import model.dao.SellerDao;
 import model.entities.Department;
@@ -88,8 +89,8 @@ public class SellerDaoJDBC implements SellerDao {
 
 		Department dep = new Department();
 
-		dep.setId(rs.getInt("Id"));
-		dep.setName(rs.getString("Name"));
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("DepName"));
 
 		return dep;
 	}
@@ -106,10 +107,10 @@ public class SellerDaoJDBC implements SellerDao {
 		ResultSet rs = null;
 		
 		try {
-			st = conn.prepareStatement("SELECT s.*,d.name FROM seller s "
-					+"JOIN department d ON s.DepartmentId = d.Id " 
-					+"WHERE d.Id = ? " 
-					+"ORDER BY d.name"
+			st = conn.prepareStatement("SELECT seller.*,department.Name as DepName FROM seller "
+					+"INNER JOIN department ON seller.DepartmentId = department.Id " 
+					+"WHERE department.Id = ? " 
+					+"ORDER BY Name"
 					);
 			
 			st.setInt(1, department.getId());
@@ -128,14 +129,12 @@ public class SellerDaoJDBC implements SellerDao {
 					map.put(rs.getInt("DepartmentId"), dep);
 				}
 				Seller obj = instantiateSeller(rs, dep);
-				list.add(obj);
-				
-				return list;
+				list.add(obj);	
 			}
-			return null;
+			return list;
 
 		}catch(SQLException e) {
-			throw new DbIntegrityException(e.getMessage());
+			throw new DbException(e.getMessage());
 		}
 		finally {
 			DB.closeStatement(st);
