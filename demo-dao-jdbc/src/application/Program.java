@@ -36,9 +36,22 @@ public class Program {
 		}
 		
 		System.out.println("\n=== TEST 4: seller insert===");
-		Seller newSeller = new Seller(null, "Greg", "greg221@gmail.com", new Date(), 4000.0, department);
+		Seller newSeller = new Seller(null, "Lana ALves", "lana@gmail.com", new Date(), 2500.0, department);
 		sellerDao.insert(newSeller);
 		System.out.println("Id inserido = " + newSeller.getId());
+		
+		System.out.println("\n=== TEST 5: seller insert===");
+		Department department1 = new Department(2, null);
+		Seller updateSeller = new Seller(9, "Lucas Oliveira", "lucas007@gmail.com", new Date(), 3500.0, department1);
+		sellerDao.update(updateSeller);;
+		
+		/*
+		seller = sellerDao.findById(2);
+		seller.setName("Maria Cabral");
+		sellerDao.update(seller);
+		
+		If you want to update just one field	
+		*/
 	}
 
 }
