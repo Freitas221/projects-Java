@@ -43,10 +43,10 @@ public class Program {
 		sellerDao.insert(newSeller);
 		System.out.println("Id inserido = " + newSeller.getId());
 		
-		System.out.println("\n=== TEST 5: seller insert===");
+		System.out.println("\n=== TEST 5: seller update===");
 		Department department1 = new Department(2, null);
 		Seller updateSeller = new Seller(9, "Lucas Oliveira", "lucas007@gmail.com", new Date(), 3500.0, department1);
-		sellerDao.update(updateSeller);;
+		sellerDao.update(updateSeller);
 		
 		/*
 		seller = sellerDao.findById(2);
