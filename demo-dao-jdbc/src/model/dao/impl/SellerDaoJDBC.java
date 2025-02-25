@@ -119,7 +119,7 @@ public class SellerDaoJDBC implements SellerDao {
 			
 		}
 		catch(SQLException e) {
-			e.getMessage();
+			throw new DbException(e.getMessage());
 		}
 		finally {
 			DB.closeStatement(st);

@@ -56,7 +56,7 @@ public class Program {
 		If you want to update just one field	
 		*/
 		
-		System.out.println("\n=== TEST 6: seller insert===");
+		System.out.println("\n=== TEST 6: seller delete===");
 		System.out.println("Digite o id que deseja deletar: ");
 		int id = sc.nextInt();
 		sellerDao.deleteById(id);

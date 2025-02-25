@@ -9,6 +9,7 @@ import java.util.List;
 
 import db.DB;
 import db.DbException;
+import db.DbIntegrityException;
 import model.dao.DepartmentDao;
 import model.entities.Department;
 
@@ -45,7 +46,6 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 					throw new DbException("Erro, nenhuma linha foi afetada.");
 				}
 			}
-			
 		}catch(SQLException e) {
 			throw new DbException(e.getMessage());
 		}
@@ -72,7 +72,6 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 			}else {
 				throw new DbException("Erro!! Nenhuma linha afetada.");
 			}
-			
 		}catch(SQLException e) {
 			throw new DbException(e.getMessage());
 		}
@@ -83,7 +82,28 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+
+		PreparedStatement st = null;
+		
+		try {
+			st = conn.prepareStatement("DELETE from department WHERE Id = ?", Statement.RETURN_GENERATED_KEYS);			
+			st.setInt(1, id);
+			
+			int rownsAffectd = st.executeUpdate();
+			
+			if(rownsAffectd == 0) {
+				
+			}
+		}
+		catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		catch (DbIntegrityException e1) {
+			throw new DbIntegrityException(e1.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+		}
 		
 	}
 
